@@ -1,5 +1,6 @@
 package uk.co.alt236.tabclirun.ui.views;
 
+import uk.co.alt236.tabclirun.Command;
 import uk.co.alt236.tabclirun.exec.Line;
 import uk.co.alt236.tabclirun.exec.Result;
 import uk.co.alt236.tabclirun.ui.implementations.ColorPane;
@@ -13,6 +14,8 @@ class CommandTab extends JPanel {
     private final JTextField textField;
     private final ColorPane textArea;
     private final FontProvider fontProvider;
+
+    private Command command;
 
     CommandTab() {
         fontProvider = new FontProvider();
@@ -30,16 +33,25 @@ class CommandTab extends JPanel {
         add(new JScrollPane(textArea));
     }
 
-    void setCommand(final String command) {
-        textField.setText(command);
+    void setCommand(final Command command) {
+        this.command = command;
+
+        textField.setText(command.getCommand());
+
+        if (command.getBackgroundColor() != null) {
+            textArea.setBackground(command.getBackgroundColor());
+        }
     }
 
     void setResult(final Result result) {
         textArea.setEditable(true);
 
         for (final Line line : result.getLines()) {
-            textArea.append(line.isError() ? COLOR_ERR : COLOR_STD,
-                    line.getText() + "\n");
+            final Color color = line.isError()
+                    ? getErrorColor()
+                    : getTextColor();
+
+            textArea.append(color, line.getText() + "\n");
         }
 
         textArea.setEditable(false);
@@ -51,5 +63,17 @@ class CommandTab extends JPanel {
 
         textArea.setFont(new Font(fontProvider.getMonospaceFontName(), Font.PLAIN, defaultSize));
         textArea.setEditable(false);
+    }
+
+    private Color getErrorColor() {
+        return command.getErrorColor() == null
+                ? COLOR_ERR
+                : command.getErrorColor();
+    }
+
+    private Color getTextColor() {
+        return command.getTextColor() == null
+                ? COLOR_STD
+                : command.getTextColor();
     }
 }

@@ -24,7 +24,7 @@ public class TabHost extends JPanel {
     public void addTab(final Command command) {
         final CommandTab commandTab = new CommandTab();
 
-        commandTab.setCommand(command.getCommand());
+        commandTab.setCommand(command);
         getTabs().addTab(
                 command.getName(),
                 commandTab);
