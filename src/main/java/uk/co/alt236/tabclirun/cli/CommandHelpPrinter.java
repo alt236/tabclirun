@@ -4,7 +4,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import uk.co.alt236.tabclirun.resources.Strings;
 
-class CommandHelpPrinter {
+public class CommandHelpPrinter {
     private static final String BINARY_PLACEHOLDER = "##BINARY##";
     private static final String VERSION_PLACEHOLDER = "##VERSION##";
 

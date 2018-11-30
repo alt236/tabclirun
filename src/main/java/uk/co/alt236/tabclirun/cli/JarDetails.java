@@ -2,7 +2,7 @@ package uk.co.alt236.tabclirun.cli;
 
 import java.io.File;
 
-class JarDetails {
+public class JarDetails {
     private final Class<?> clazz;
 
     public JarDetails(final Class clazz) {
