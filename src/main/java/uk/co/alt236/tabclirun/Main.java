@@ -11,16 +11,16 @@ import uk.co.alt236.tabclirun.resources.Strings;
 class Main {
     public static void main(String[] args) {
         final Strings strings = new Strings();
-        final CommandLineOptions cliOptions = parseArgs(strings, args);
+        final Resources resources = new Resources();
+        final CommandLineOptions cliOptions = parseArgs(strings, resources, args);
 
         if (cliOptions != null) {
-            new TabCliRun().execute(cliOptions);
+            new TabCliRun(resources).execute(cliOptions);
         }
     }
 
-    private static CommandLineOptions parseArgs(Strings strings, String[] args) {
+    private static CommandLineOptions parseArgs(Strings strings, Resources resources, String[] args) {
         final CommandLineParser parser = new DefaultParser();
-        final Resources resources = new Resources();
         final Options options = new OptionsBuilder(strings).compileOptions();
         final CommandLineOptions retVal;
 

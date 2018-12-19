@@ -7,13 +7,20 @@ import io.reactivex.schedulers.Schedulers;
 import uk.co.alt236.tabclirun.Command;
 import uk.co.alt236.tabclirun.exec.CommandExecutor;
 import uk.co.alt236.tabclirun.exec.Result;
+import uk.co.alt236.tabclirun.resources.Resources;
 
 import java.util.List;
 
 public class TabsPresenter {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    private final Resources resources;
+
     private boolean presenting;
+
+    public TabsPresenter(Resources resources) {
+        this.resources = resources;
+    }
 
     public void present(List<Command> commandList) {
         if (presenting) {
@@ -22,7 +29,7 @@ public class TabsPresenter {
 
         presenting = true;
 
-        final View view = new View();
+        final View view = new View(resources);
         view.display();
 
         for (final Command command : commandList) {
