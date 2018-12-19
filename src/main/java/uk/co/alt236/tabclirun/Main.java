@@ -5,6 +5,7 @@ import uk.co.alt236.tabclirun.cli.CommandHelpPrinter;
 import uk.co.alt236.tabclirun.cli.CommandLineOptions;
 import uk.co.alt236.tabclirun.cli.JarDetails;
 import uk.co.alt236.tabclirun.cli.OptionsBuilder;
+import uk.co.alt236.tabclirun.resources.Resources;
 import uk.co.alt236.tabclirun.resources.Strings;
 
 class Main {
@@ -19,12 +20,13 @@ class Main {
 
     private static CommandLineOptions parseArgs(Strings strings, String[] args) {
         final CommandLineParser parser = new DefaultParser();
+        final Resources resources = new Resources();
         final Options options = new OptionsBuilder(strings).compileOptions();
         final CommandLineOptions retVal;
 
         if (args.length == 0) {
             final JarDetails jarDetails = new JarDetails(Main.class);
-            new CommandHelpPrinter(strings, jarDetails, options).printHelp();
+            new CommandHelpPrinter(strings, resources, jarDetails, options).printHelp();
             retVal = null;
         } else {
             CommandLine line = null;

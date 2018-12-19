@@ -1,0 +1,23 @@
+{
+  "globalSettings": {
+    "normalTextColor": "#000ff0",
+    "errorTextColor": "#0000ff",
+    "consoleColor": "#ffffff"
+  },
+  "commands": [
+    {
+      "name": "Dir listing",
+      "command": "ls -all \"{param.target}\"",
+      "normalTextColor": "#00ff00",
+      "errorTextColor": "#ff0000",
+      "consoleColor": "#000000"
+    },
+    {
+      "name": "Free space",
+      "command": "df"
+    },
+    {
+      "command": "mount"
+    }
+  ]
+}
