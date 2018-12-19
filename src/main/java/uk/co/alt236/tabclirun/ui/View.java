@@ -3,6 +3,7 @@ package uk.co.alt236.tabclirun.ui;
 
 import uk.co.alt236.tabclirun.Command;
 import uk.co.alt236.tabclirun.exec.Result;
+import uk.co.alt236.tabclirun.resources.Resources;
 import uk.co.alt236.tabclirun.ui.views.TabHost;
 
 import javax.swing.*;
@@ -12,11 +13,13 @@ class View {
     private final JFrame frame;
     private final TabHost tabHost;
 
-    View() {
+    View(Resources resources) {
         setupApplicationLookAndFeel();
         JFrame.setDefaultLookAndFeelDecorated(true);
+
         frame = new JFrame();
         tabHost = new TabHost();
+        setupToolbar(resources);
     }
 
     void display() {
@@ -37,6 +40,13 @@ class View {
         tabHost.addTab(command);
     }
 
+    int findTabWithName(String name) {
+        return tabHost.findTabWithName(name);
+    }
+
+    void setTabData(int tabIndex, Result result) {
+        SwingUtilities.invokeLater(() -> tabHost.setTabData(tabIndex, result));
+    }
 
     private void setupApplicationLookAndFeel() {
         try {
@@ -46,11 +56,8 @@ class View {
         }
     }
 
-    int findTabWithName(String name) {
-        return tabHost.findTabWithName(name);
-    }
-
-    void setTabData(int tabIndex, Result result) {
-        SwingUtilities.invokeLater(() -> tabHost.setTabData(tabIndex, result));
+    private void setupToolbar(Resources resources) {
+        frame.setIconImage(resources.getImage("terminal-icon.png"));
+        frame.setTitle("TabCliRun");
     }
 }

@@ -77,7 +77,9 @@ Linux/Mac: `mvn clean package && chmod +x target/tabclirun-X.X.jar`
 
 ## Credits
 
-Author: [Alexandros Schillings](https://github.com/alt236).
+* Author: [Alexandros Schillings](https://github.com/alt236).
+* Icon: Terminal Icon by [paomedia](http://www.iconarchive.com/show/small-n-flat-icons-by-paomedia/terminal-icon.html)
+
 
 The code in this project is licensed under the [Apache Software License 2.0](LICENSE).
 
