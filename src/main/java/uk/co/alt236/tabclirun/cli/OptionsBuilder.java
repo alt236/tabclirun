@@ -4,10 +4,13 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import uk.co.alt236.tabclirun.resources.Strings;
 
-class OptionsBuilder {
+public class OptionsBuilder {
 
-    /*package*/ static final String ARG_INPUT_LONG = "input";
-    /*package*/ private static final String ARG_INPUT = "i";
+    /*package*/ static final String ARG_SETTINGS_LONG = "settings";
+    /*package*/ static final String ARG_TARGET_LONG = "target";
+    /*package*/ private static final String ARG_SETTINGS = "s";
+    /*package*/ private static final String ARG_TARGET = "t";
+
     private final Strings strings;
 
     public OptionsBuilder(Strings strings) {
@@ -17,15 +20,26 @@ class OptionsBuilder {
     public Options compileOptions() {
         final Options options = new Options();
 
-        options.addOption(createOptionInput());
+        options.addOption(createOptionSettings());
+        options.addOption(createOptionTarget());
 
         return options;
     }
 
-    private Option createOptionInput() {
-        final String desc = strings.getString("cli_cmd_input");
-        return Option.builder(ARG_INPUT)
-                .longOpt(ARG_INPUT_LONG)
+    private Option createOptionSettings() {
+        final String desc = strings.getString("cli_cmd_settings");
+        return Option.builder(ARG_SETTINGS)
+                .longOpt(ARG_SETTINGS_LONG)
+                .hasArg()
+                .required(true)
+                .desc(desc)
+                .build();
+    }
+
+    private Option createOptionTarget() {
+        final String desc = strings.getString("cli_cmd_target");
+        return Option.builder(ARG_TARGET)
+                .longOpt(ARG_TARGET_LONG)
                 .hasArg()
                 .required(true)
                 .desc(desc)

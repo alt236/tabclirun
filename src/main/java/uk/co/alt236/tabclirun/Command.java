@@ -27,15 +27,15 @@ public class Command {
         return command;
     }
 
-    private Color getBackgroundColor() {
+    public Color getBackgroundColor() {
         return backgroundColor;
     }
 
-    private Color getTextColor() {
+    public Color getTextColor() {
         return textColor;
     }
 
-    private Color getErrorColor() {
+    public Color getErrorColor() {
         return errorColor;
     }
 

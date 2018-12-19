@@ -1,42 +1,48 @@
 package uk.co.alt236.tabclirun;
 
-import uk.co.alt236.tabclirun.ui.TabsPresenter;
-
-import java.awt.*;
-import java.util.Arrays;
-import java.util.List;
+import org.apache.commons.cli.*;
+import uk.co.alt236.tabclirun.cli.CommandHelpPrinter;
+import uk.co.alt236.tabclirun.cli.CommandLineOptions;
+import uk.co.alt236.tabclirun.cli.JarDetails;
+import uk.co.alt236.tabclirun.cli.OptionsBuilder;
+import uk.co.alt236.tabclirun.resources.Resources;
+import uk.co.alt236.tabclirun.resources.Strings;
 
 class Main {
-    public static void main(String[] a) {
-        final TabsPresenter tabsPresenter = new TabsPresenter();
-        tabsPresenter.present(getCommandList());
+    public static void main(String[] args) {
+        final Strings strings = new Strings();
+        final CommandLineOptions cliOptions = parseArgs(strings, args);
+
+        if (cliOptions != null) {
+            new TabCliRun().execute(cliOptions);
+        }
     }
 
-    private static List<Command> getCommandList() {
-        return Arrays.asList(
-                new Command
-                        .Builder()
-                        .withCommand("ls")
-                        .withName("LS TEST")
-                        .withBackgroundColor(Color.BLACK)
-                        .withTextColor(Color.GREEN)
-                        .withErrorColor(Color.RED)
-                        .build(),
-                new Command
-                        .Builder()
-                        .withCommand("df")
-                        .withName("DF TEST")
-                        .withBackgroundColor(Color.BLACK)
-                        .withTextColor(Color.GREEN)
-                        .withErrorColor(Color.RED)
-                        .build(),
-                new Command
-                        .Builder()
-                        .withCommand("asdasd")
-                        .withName("asdasd TEST")
-                        .withBackgroundColor(Color.BLACK)
-                        .withTextColor(Color.GREEN)
-                        .withErrorColor(Color.RED)
-                        .build());
+    private static CommandLineOptions parseArgs(Strings strings, String[] args) {
+        final CommandLineParser parser = new DefaultParser();
+        final Resources resources = new Resources();
+        final Options options = new OptionsBuilder(strings).compileOptions();
+        final CommandLineOptions retVal;
+
+        if (args.length == 0) {
+            final JarDetails jarDetails = new JarDetails(Main.class);
+            new CommandHelpPrinter(strings, resources, jarDetails, options).printHelp();
+            retVal = null;
+        } else {
+            CommandLine line = null;
+
+            try {
+                line = parser.parse(options, args);
+            } catch (final ParseException exp) {
+                final String message = exp.getMessage();
+                System.err.println(message);
+                System.exit(1);
+            }
+
+            retVal = new CommandLineOptions(line);
+        }
+
+        return retVal;
     }
+
 }

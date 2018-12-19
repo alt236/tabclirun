@@ -2,7 +2,7 @@ package uk.co.alt236.tabclirun.cli;
 
 import org.apache.commons.cli.CommandLine;
 
-class CommandLineOptions {
+public class CommandLineOptions {
 
     private final CommandLine commandLine;
 
@@ -11,9 +11,12 @@ class CommandLineOptions {
     }
 
 
-    public String getInputFile() {
-        return commandLine.getOptionValue(OptionsBuilder.ARG_INPUT_LONG);
+    public String getSettingsFile() {
+        return commandLine.getOptionValue(OptionsBuilder.ARG_SETTINGS_LONG);
     }
 
+    public String getTarget() {
+        return commandLine.getOptionValue(OptionsBuilder.ARG_TARGET_LONG);
+    }
 
 }
