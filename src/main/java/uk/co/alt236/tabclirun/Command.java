@@ -10,6 +10,7 @@ public class Command {
     private final Color backgroundColor;
     private final Color textColor;
     private final Color errorColor;
+    private final boolean disableAutoScroll;
 
     private Command(Builder builder) {
         name = builder.name;
@@ -17,6 +18,7 @@ public class Command {
         backgroundColor = builder.backgroundColor;
         textColor = builder.textColor;
         errorColor = builder.errorColor;
+        disableAutoScroll = builder.disableAutoScroll;
     }
 
     public String getName() {
@@ -39,12 +41,17 @@ public class Command {
         return errorColor;
     }
 
+    public boolean isDisableAutoScroll() {
+        return disableAutoScroll;
+    }
+
     public static final class Builder {
         private String name;
         private String command;
         private Color backgroundColor;
         private Color textColor;
         private Color errorColor;
+        private boolean disableAutoScroll;
 
         public Builder() {
         }
@@ -84,6 +91,12 @@ public class Command {
         @Nonnull
         public Builder withErrorColor(Color val) {
             errorColor = val;
+            return this;
+        }
+
+        @Nonnull
+        public Builder withDisableAutoScroll(boolean val) {
+            disableAutoScroll = val;
             return this;
         }
 

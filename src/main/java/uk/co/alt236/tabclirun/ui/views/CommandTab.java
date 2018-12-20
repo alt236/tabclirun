@@ -54,6 +54,10 @@ class CommandTab extends JPanel {
             textArea.append(color, line.getText() + "\n");
         }
 
+        if (command.isDisableAutoScroll() && textArea.getText().length() > 0) {
+            textArea.setCaretPosition(0);
+        }
+
         textArea.setEditable(false);
     }
 

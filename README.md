@@ -40,7 +40,8 @@ Please report issues at https://github.com/alt236/tabclirun/issues
   "globalSettings": {
     "normalTextColor": "#000ff0",
     "errorTextColor": "#0000ff",
-    "consoleColor": "#ffffff"
+    "consoleColor": "#ffffff",
+    "disableAutoScroll": true
   },
   "commands": [
     {
@@ -55,7 +56,8 @@ Please report issues at https://github.com/alt236/tabclirun/issues
       "command": "df"
     },
     {
-      "command": "mount"
+      "command": "mount",
+      "disableAutoScroll": false
     }
   ]
 }

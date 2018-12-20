@@ -12,7 +12,8 @@ public class GlobalSettings {
     private String errorTextColor;
     @SerializedName("consoleColor")
     private String consoleColor;
-
+    @SerializedName("disableAutoScroll")
+    private Boolean disableAutoScroll;
 
     @Nullable
     public String getTextColor() {
@@ -27,5 +28,10 @@ public class GlobalSettings {
     @Nullable
     public String getConsoleColor() {
         return consoleColor;
+    }
+
+    @Nullable
+    public Boolean isDisableAutoScroll() {
+        return disableAutoScroll;
     }
 }
