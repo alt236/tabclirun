@@ -17,6 +17,8 @@ public class Command {
     private String errorTextColor;
     @SerializedName("consoleColor")
     private String consoleColor;
+    @SerializedName("disableAutoScroll")
+    private Boolean disableAutoScroll;
 
     @Nullable
     public String getName() {
@@ -41,5 +43,10 @@ public class Command {
     @Nullable
     public String getConsoleColor() {
         return consoleColor;
+    }
+
+    @Nullable
+    public Boolean isDisableAutoScroll() {
+        return disableAutoScroll;
     }
 }
