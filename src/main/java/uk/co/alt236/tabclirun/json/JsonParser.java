@@ -23,8 +23,7 @@ public class JsonParser {
 
     private static void checkNullity(@Nullable final Object object, final String message) {
         if (object == null) {
-            System.err.println(message);
-            System.exit(1);
+            throw new IllegalArgumentException(message);
         }
     }
 
@@ -37,20 +36,29 @@ public class JsonParser {
         final GlobalSettings globalSettings = settings.getGlobalSettings();
 
         if (globalSettings == null) {
-            System.err.println("Global settings missing from file");
-            System.exit(1);
+            final String errorMessage = "Global settings missing from file";
+            System.err.println(errorMessage);
+            throw new IllegalArgumentException(errorMessage);
         }
 
         final List<Command> retVal = new ArrayList<>();
         for (final uk.co.alt236.tabclirun.json.model.Command inputCommand : settings.getCommands()) {
             checkNullity(inputCommand.getCommand(), "Command cannot be null!");
 
+            final Color textColor = ParseHelper.getFirstNotNullColor(inputCommand.getTextColor(), globalSettings.getTextColor());
+            final Color errorColor = ParseHelper.getFirstNotNullColor(inputCommand.getErrorTextColor(), globalSettings.getErrorTextColor());
+            final Color bgColor = ParseHelper.getFirstNotNullColor(inputCommand.getConsoleColor(), globalSettings.getConsoleColor());
+            final String name = inputCommand.getName() == null ? inputCommand.getCommand() : inputCommand.getName();
+            final String commandString = composeCommand(inputCommand.getCommand(), target);
+            final boolean disableAutoScroll = ParseHelper.getFirstNotNull(inputCommand.isDisableAutoScroll(), globalSettings.isDisableAutoScroll(), Boolean.FALSE);
+
             final Command command = new Command.Builder()
-                    .withCommand(composeCommand(inputCommand.getCommand(), target))
-                    .withName(inputCommand.getName() == null ? inputCommand.getCommand() : inputCommand.getName())
-                    .withBackgroundColor(getFirstNotNullColor(inputCommand.getConsoleColor(), globalSettings.getConsoleColor()))
-                    .withTextColor(getFirstNotNullColor(inputCommand.getTextColor(), globalSettings.getTextColor()))
-                    .withErrorColor(getFirstNotNullColor(inputCommand.getErrorTextColor(), globalSettings.getErrorTextColor()))
+                    .withDisableAutoScroll(disableAutoScroll)
+                    .withCommand(commandString)
+                    .withName(name)
+                    .withBackgroundColor(bgColor)
+                    .withTextColor(textColor)
+                    .withErrorColor(errorColor)
                     .build();
 
             retVal.add(command);
@@ -75,16 +83,6 @@ public class JsonParser {
             }
             names.add(name);
         }
-    }
-
-    private Color getFirstNotNullColor(String... colours) {
-        for (final String color : colours) {
-            if (color != null) {
-                return Color.decode(color);
-            }
-        }
-
-        return null;
     }
 
     private Settings parseFile(final File file) {
