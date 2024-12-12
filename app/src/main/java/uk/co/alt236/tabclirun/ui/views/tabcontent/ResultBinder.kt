@@ -2,6 +2,8 @@ package uk.co.alt236.tabclirun.ui.views.tabcontent
 
 import dev.alt236.tabclirun.libs.exec.result.Result
 import uk.co.alt236.tabclirun.ui.implementations.ColorPane
+import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
 import kotlin.time.measureTime
 
 internal class ResultBinder(
@@ -25,8 +27,7 @@ internal class ResultBinder(
 
                 val sb = StringBuilder()
                 for (line in result.lines) {
-                    sb.append(line.text)
-                    sb.append('\n')
+                    sb.appendLine(line.text)
                 }
 
                 colorPane.append(textColor, sb.toString())
@@ -35,7 +36,30 @@ internal class ResultBinder(
 
         if (verbose) {
             println("BIND  : '${result.command}' --> Time: $elapsed <--")
+
+            val sb = StringBuilder()
+            sb.appendLine("---------------")
+            sb.append("Command: '", result.command, "'", '\n')
+            sb.append("Lines  : ", result.lines.size, '\n')
+            sb.appendLine()
+            sb.append("TIME-EXEC: ", result.executionDuration.pretty(), '\n')
+            sb.append("TIME-BIND: ", elapsed.pretty(), '\n')
+
+            colorPane.append(colors.textColor, sb.toString())
         }
     }
+
+    private fun Duration.pretty(): String {
+        return this.toComponents { hours, minutes, seconds, nanoseconds ->
+            val fHours = hours.toString().padStart(2, '0')
+            val fMin = minutes.toString().padStart(2, '0')
+            val fSec = seconds.toString().padStart(2, '0')
+            val fMillis = TimeUnit.NANOSECONDS.toMillis(nanoseconds.toLong())
+                .toString().padStart(3, '0')
+
+            "${fHours}h ${fMin}m ${fSec}s ${fMillis}ms"
+        }
+    }
+
 
 }

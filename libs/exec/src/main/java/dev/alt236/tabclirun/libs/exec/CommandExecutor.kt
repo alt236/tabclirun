@@ -22,14 +22,21 @@ class CommandExecutor(private val verbose: Boolean) {
         }
 
         val elapsed: Duration = measureTime {
-            runner.run(executor, collector, commandline, command)
+            runner.run(executor, collector, commandline)
         }
 
         if (verbose) {
             println("END   : '$command' --> Time: $elapsed <--")
         }
 
-        return runner.result
+        val internalResult = runner.result
+
+        return Result(
+            command = command,
+            executionDuration = elapsed,
+            exitCode = internalResult.exitCode,
+            lines = internalResult.lines
+        )
     }
 
 }
