@@ -1,8 +1,8 @@
 package uk.co.alt236.tabclirun.ui.views;
 
 import dev.alt236.tabclirun.libs.config.Command;
-import uk.co.alt236.tabclirun.exec.Line;
-import uk.co.alt236.tabclirun.exec.Result;
+import dev.alt236.tabclirun.libs.exec.result.Line;
+import dev.alt236.tabclirun.libs.exec.result.Result;
 import uk.co.alt236.tabclirun.ui.implementations.ColorPane;
 
 import javax.swing.*;

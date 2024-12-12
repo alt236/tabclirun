@@ -1,12 +1,12 @@
 package uk.co.alt236.tabclirun.ui;
 
 import dev.alt236.tabclirun.libs.config.Command;
+import dev.alt236.tabclirun.libs.exec.CommandExecutor;
+import dev.alt236.tabclirun.libs.exec.result.Result;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import uk.co.alt236.tabclirun.exec.CommandExecutor;
-import uk.co.alt236.tabclirun.exec.Result;
 import uk.co.alt236.tabclirun.resources.Resources;
 
 import java.util.List;

@@ -9,5 +9,6 @@ plugins {
 rootProject.name = 'tabclirun'
 include 'app'
 include 'libs:config'
+include 'libs:exec'
 
 

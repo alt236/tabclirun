@@ -1,5 +1,6 @@
-package uk.co.alt236.tabclirun.exec;
+package dev.alt236.tabclirun.libs.exec;
 
+import dev.alt236.tabclirun.libs.exec.result.Line;
 import org.apache.commons.exec.LogOutputStream;
 
 import java.io.OutputStream;

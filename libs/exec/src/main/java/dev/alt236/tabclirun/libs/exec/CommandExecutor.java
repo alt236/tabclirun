@@ -1,5 +1,7 @@
-package uk.co.alt236.tabclirun.exec;
+package dev.alt236.tabclirun.libs.exec;
 
+import dev.alt236.tabclirun.libs.exec.result.Line;
+import dev.alt236.tabclirun.libs.exec.result.Result;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
