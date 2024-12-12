@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.shadowJar)
+    alias(libs.plugins.test.logger)
+    alias(libs.plugins.kover)
+}
+
+def jar_name = "tabclirun"
+def jar_version = '1.1.0-SNAPSHOT'
+def jar_group = 'uk.co.alt236'
+def jar_main_class = ' uk.co.alt236.tabclirun.Main'
+
+
+kotlin {
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(versions.java_version)
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(versions.java_version)
+    }
+}
+
+group jar_group
+version jar_version
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    archiveBaseName.set(jar_name)
+    archiveVersion.set(jar_version)
+
+    manifest {
+        attributes 'Main-Class': jar_main_class
+    }
+}
+
+shadowJar {
+    archiveBaseName.set(jar_name)
+    archiveVersion.set(jar_version)
+}
+
+dependencies {
+    implementation libs.commons.cli
+    implementation libs.commons.io
+    implementation libs.commons.exec
+    implementation libs.commons.text
+    implementation libs.google.gson
+    implementation libs.jsr305
+    implementation libs.rxjava2.rxjava
+
+    testImplementation libs.junit4
+    testImplementation libs.mockito.all
+    testImplementation libs.kotlin.test
+}
+
