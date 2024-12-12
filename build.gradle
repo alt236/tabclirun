@@ -1,0 +1,22 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+}
+
+plugins {
+    id 'java'
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kover)
+}
+
+ext.versions = [
+        java_version: 17,
+]
+
+koverMerged {
+    enable()
+}
+
+

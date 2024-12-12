@@ -1,14 +1,76 @@
-# Java Maven CircleCI 2.0 configuration file
+# Java Gradle CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
-version: 2
+version: 2.1
+
+#
+# CACHE CONTROL
+#
+generate_dependency_hashfile: &generate_dependency_hashfile
+  run:
+    name: Generate Dependency Hashfile
+    command: ~/repo/.circleci/generate_dependency_hashfile.sh ~/repo/ ./dependency_hashfile.tmp $CIRCLE_JOB
+
+print_dependency_hashfile: &print_dependency_hashfile
+  run:
+    name: Print Dependency Hashfile Contents
+    command: cat ./dependency_hashfile.tmp
+
+cache_key: &cache_key
+  key: cache-v1-{{ checksum "dependency_hashfile.tmp" }}
+
+cache_key_fallback: &cache_key_fallback
+  key: cache-v1-
+
+restore_cache: &restore_cache
+  restore_cache:
+    <<: *cache_key
+    <<: *cache_key_fallback
+
+save_cache: &save_cache
+  save_cache:
+    <<: *cache_key
+    paths:
+      - ~/.gradle
+      - ~/.m2
+
+download_dependencies: &download_dependencies
+  run:
+    name: Download Dependencies
+    command: ./gradlew dependencies
+
+upload_codecoverage: &upload_codecoverage
+  store_artifacts:
+    destination: codecoverage
+    path: ~/repo/build/reports/kover/merged/
+
+upload_test_results: &upload_test_results
+  run:
+    name: Save test results
+    command: |
+      mkdir -p ~/test-results/junit/
+      find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+      ls ~/test-results/junit/
+    run:
+      - store_test_results:
+          path: ~/test-results
+
+commands:
+  setup_dependency_cache:
+    description: "Restore (if present) and populate (if needed) the dependency cache"
+    steps:
+      - *generate_dependency_hashfile
+      - *print_dependency_hashfile
+      - *restore_cache
+      - *download_dependencies
+
 jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
-      
+      - image: cimg/openjdk:8.0.345
+
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -18,26 +80,14 @@ jobs:
 
     environment:
       # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
-    
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "pom.xml" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: mvn dependency:go-offline
-
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "pom.xml" }}
-        
-      # run tests!
-      - run: mvn integration-test
-
-
+      - setup_dependency_cache
+      - run: ./gradlew dependencies
+      - run: ./codecoverage.sh # this will implicitly run all tests
+      - *upload_codecoverage
+      - *upload_test_results
+      - *save_cache # This goes after any step that compiles or tests in order to capture any unexpected dependencies
