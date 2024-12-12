@@ -1,21 +1,24 @@
-package uk.co.alt236.tabclirun.ui.implementations;
+package uk.co.alt236.tabclirun.ui.implementations
 
-import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
-import java.awt.*;
+import java.awt.Color
+import javax.swing.JTextPane
+import javax.swing.text.SimpleAttributeSet
+import javax.swing.text.StyleConstants
+import javax.swing.text.StyleContext
 
-public class ColorPane extends JTextPane {
+class ColorPane : JTextPane() {
 
-    public void append(Color color, String text) {
-        final StyleContext sc = StyleContext.getDefaultStyleContext();
-        final AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color);
-        final int len = getDocument().getLength(); // same value as getText().length();
+    init {
+        CutCopyPasteMenu().attach(this)
+    }
 
-        setCaretPosition(len); // place caret at the end (with no selection)
-        setCharacterAttributes(aset, false);
-        replaceSelection(text); // there is no selection, so inserts at caret
+    fun append(color: Color?, text: String?) {
+        val style = StyleContext.getDefaultStyleContext()
+        val attr = style.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, color)
+        val len = document.length // same value as getText().length();
+
+        caretPosition = len // place caret at the end (with no selection)
+        setCharacterAttributes(attr, false)
+        replaceSelection(text) // there is no selection, so inserts at caret
     }
 }
