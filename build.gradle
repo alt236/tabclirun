@@ -20,3 +20,8 @@ koverMerged {
 }
 
 
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}

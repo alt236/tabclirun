@@ -1,4 +1,4 @@
-package uk.co.alt236.tabclirun;
+package dev.alt236.tabclirun.libs.config;
 
 import javax.annotation.Nonnull;
 import java.awt.*;

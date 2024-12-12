@@ -1,10 +1,10 @@
 package uk.co.alt236.tabclirun.ui;
 
+import dev.alt236.tabclirun.libs.config.Command;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import uk.co.alt236.tabclirun.Command;
 import uk.co.alt236.tabclirun.exec.CommandExecutor;
 import uk.co.alt236.tabclirun.exec.Result;
 import uk.co.alt236.tabclirun.resources.Resources;

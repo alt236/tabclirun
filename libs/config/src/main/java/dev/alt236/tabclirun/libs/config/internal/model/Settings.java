@@ -1,4 +1,4 @@
-package uk.co.alt236.tabclirun.json.model;
+package dev.alt236.tabclirun.libs.config.internal.model;
 
 import com.google.gson.annotations.SerializedName;
 

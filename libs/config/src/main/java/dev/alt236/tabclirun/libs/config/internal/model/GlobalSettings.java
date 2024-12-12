@@ -1,15 +1,10 @@
-package uk.co.alt236.tabclirun.json.model;
+package dev.alt236.tabclirun.libs.config.internal.model;
 
 import com.google.gson.annotations.SerializedName;
 
 import javax.annotation.Nullable;
 
-public class Command {
-
-    @SerializedName("name")
-    private String name;
-    @SerializedName("command")
-    private String command;
+public class GlobalSettings {
 
     @SerializedName("normalTextColor")
     private String textColor;
@@ -19,16 +14,6 @@ public class Command {
     private String consoleColor;
     @SerializedName("disableAutoScroll")
     private Boolean disableAutoScroll;
-
-    @Nullable
-    public String getName() {
-        return name;
-    }
-
-    @Nullable
-    public String getCommand() {
-        return command;
-    }
 
     @Nullable
     public String getTextColor() {
