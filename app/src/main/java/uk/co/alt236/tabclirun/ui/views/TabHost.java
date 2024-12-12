@@ -2,10 +2,18 @@ package uk.co.alt236.tabclirun.ui.views;
 
 import dev.alt236.tabclirun.libs.config.Command;
 import dev.alt236.tabclirun.libs.exec.result.Result;
+import uk.co.alt236.tabclirun.ui.views.tabcontent.CommandTab;
+import uk.co.alt236.tabclirun.ui.views.tabtitle.TabTitleIcons;
 
 import javax.swing.*;
 
 public class TabHost extends JPanel {
+    private final TabTitleIcons tabIcons = new TabTitleIcons();
+    private final boolean verbose;
+
+    public TabHost(final boolean verbose) {
+        this.verbose = verbose;
+    }
 
     public void display() {
         try {
@@ -22,11 +30,12 @@ public class TabHost extends JPanel {
     }
 
     public void addTab(final Command command) {
-        final CommandTab commandTab = new CommandTab();
+        final CommandTab commandTab = new CommandTab(verbose);
 
         commandTab.setCommand(command);
         getTabs().addTab(
                 command.getName(),
+                tabIcons.getIconInProgress(),
                 commandTab);
     }
 
@@ -48,6 +57,12 @@ public class TabHost extends JPanel {
         final CommandTab tab = (CommandTab) tabs.getComponentAt(tabIndex);
         if (tab == null) {
             throw new IllegalStateException("Did not find a tab at index " + tabIndex);
+        }
+
+        if (result.isSuccess()) {
+            tabs.setIconAt(tabIndex, tabIcons.getIconSuccess());
+        } else {
+            tabs.setIconAt(tabIndex, tabIcons.getIconError());
         }
 
         tab.setResult(result);

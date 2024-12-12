@@ -13,21 +13,21 @@ class View {
     private final JFrame frame;
     private final TabHost tabHost;
 
-    View(Resources resources) {
+    View(Resources resources, boolean verbose) {
         setupApplicationLookAndFeel();
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         frame = new JFrame();
-        tabHost = new TabHost();
+        tabHost = new TabHost(verbose);
         setupToolbar(resources);
     }
 
     void display() {
-        final SceenResolution sceenResolution = new SceenResolution();
+        final ScreenResolution screenResolution = new ScreenResolution();
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(500, 500));
-        frame.setPreferredSize(new Dimension(sceenResolution.getScreenResolution().width / 3,
-                sceenResolution.getScreenResolution().height / 3));
+        frame.setPreferredSize(new Dimension(screenResolution.getScreenResolution().width / 3,
+                screenResolution.getScreenResolution().height / 3));
         frame.setContentPane(tabHost);
         frame.pack();
 

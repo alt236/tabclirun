@@ -2,7 +2,7 @@ package uk.co.alt236.tabclirun.ui;
 
 import java.awt.*;
 
-class SceenResolution {
+class ScreenResolution {
 
     Dimension getScreenResolution() {
         return Toolkit.getDefaultToolkit().getScreenSize();
