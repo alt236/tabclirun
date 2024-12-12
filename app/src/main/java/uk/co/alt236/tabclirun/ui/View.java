@@ -13,12 +13,12 @@ class View {
     private final JFrame frame;
     private final TabHost tabHost;
 
-    View(Resources resources) {
+    View(Resources resources, boolean verbose) {
         setupApplicationLookAndFeel();
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         frame = new JFrame();
-        tabHost = new TabHost();
+        tabHost = new TabHost(verbose);
         setupToolbar(resources);
     }
 

@@ -12,10 +12,11 @@ import javax.swing.JScrollPane
 import javax.swing.JTextField
 import javax.swing.UIManager
 
-internal class CommandTab : JPanel() {
+internal class CommandTab(verbose: Boolean) : JPanel() {
     private val commandNameField = JTextField()
     private val commandOutputField = ColorPane()
     private val fontProvider = FontProvider()
+    private val resultBinder = ResultBinder(commandOutputField, verbose)
 
     private lateinit var command: Command
     private lateinit var colors: CommandColors
@@ -47,10 +48,7 @@ internal class CommandTab : JPanel() {
     fun setResult(result: Result) {
         commandOutputField.isEditable = true
 
-        for (line in result.lines) {
-            val color = colors.getColor(line)
-            commandOutputField.append(color, line.text + "\n")
-        }
+        resultBinder.bind(colors, result)
 
         if (command.isDisableAutoScroll && commandOutputField.text.isNotEmpty()) {
             commandOutputField.caretPosition = 0
@@ -66,4 +64,5 @@ internal class CommandTab : JPanel() {
         commandOutputField.font = Font(fontProvider.monospaceFontName, Font.PLAIN, defaultSize)
         commandOutputField.isEditable = false
     }
+
 }

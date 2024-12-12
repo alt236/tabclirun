@@ -6,11 +6,17 @@ import java.awt.Color
 
 internal class CommandColors(command: Command) {
 
-    private val errorColor: Color = if (command.errorColor == null) COLOR_ERR
-    else command.errorColor
+    private val errorColor: Color = if (command.errorColor == null) {
+        COLOR_ERR
+    } else {
+        command.errorColor
+    }
 
-    private val textColor: Color = if (command.textColor == null) COLOR_STD
-    else command.textColor
+    val textColor: Color = if (command.textColor == null) {
+        COLOR_STD
+    } else {
+        command.textColor
+    }
 
     fun getColor(line: Line): Color = if (line.isError) {
         errorColor

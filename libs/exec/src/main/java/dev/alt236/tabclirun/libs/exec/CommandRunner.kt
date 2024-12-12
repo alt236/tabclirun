@@ -17,19 +17,20 @@ internal class CommandRunner {
         executor: DefaultExecutor,
         collector: OutputCollector,
         commandline: CommandLine,
+        rawCommand: String,
     ) {
         _result = try {
             val exitCode = executor.execute(commandline)
             val lines = collector.lines
 
-            Result(exitCode, lines)
+            Result(command = rawCommand, exitCode, lines)
         } catch (e: Exception) {
-            e.toResult()
+            e.toResult(rawCommand)
         }
     }
 
 
-    private fun Exception.toResult(): Result {
+    private fun Exception.toResult(rawCommand: String): Result {
         val sw = StringWriter()
         val pw = PrintWriter(sw)
         this.printStackTrace(pw)
@@ -40,6 +41,6 @@ internal class CommandRunner {
             .toTypedArray())
 
         val lines = stringLines.map { Line(it, true) }
-        return Result(-1, lines)
+        return Result(rawCommand, -1, lines)
     }
 }

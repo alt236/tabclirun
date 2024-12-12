@@ -31,7 +31,7 @@ public class TabsPresenter {
 
         presenting = true;
 
-        final View view = new View(resources);
+        final View view = new View(resources, verbose);
         view.display();
 
         for (final Command command : commandList) {
