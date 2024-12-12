@@ -13,8 +13,8 @@ import javax.swing.JTextField
 import javax.swing.UIManager
 
 internal class CommandTab : JPanel() {
-    private val textField = JTextField()
-    private val textArea = ColorPane()
+    private val commandNameField = JTextField()
+    private val commandOutputField = ColorPane()
     private val fontProvider = FontProvider()
 
     private lateinit var command: Command
@@ -26,44 +26,44 @@ internal class CommandTab : JPanel() {
 
         setupTextArea()
 
-        textField.maximumSize = Dimension(Int.MAX_VALUE, textField.preferredSize.height)
-        textField.isEditable = false
+        commandNameField.maximumSize = Dimension(Int.MAX_VALUE, commandNameField.preferredSize.height)
+        commandNameField.isEditable = false
 
-        add(textField)
-        add(JScrollPane(textArea))
+        add(commandNameField)
+        add(JScrollPane(commandOutputField))
     }
 
     fun setCommand(command: Command) {
         this.command = command
         this.colors = CommandColors(command)
 
-        textField.text = command.command
+        commandNameField.text = command.command
 
         if (command.backgroundColor != null) {
-            textArea.background = command.backgroundColor
+            commandOutputField.background = command.backgroundColor
         }
     }
 
     fun setResult(result: Result) {
-        textArea.isEditable = true
+        commandOutputField.isEditable = true
 
         for (line in result.lines) {
             val color = colors.getColor(line)
-            textArea.append(color, line.text + "\n")
+            commandOutputField.append(color, line.text + "\n")
         }
 
-        if (command.isDisableAutoScroll && textArea.text.isNotEmpty()) {
-            textArea.caretPosition = 0
+        if (command.isDisableAutoScroll && commandOutputField.text.isNotEmpty()) {
+            commandOutputField.caretPosition = 0
         }
 
-        textArea.isEditable = false
+        commandOutputField.isEditable = false
     }
 
     private fun setupTextArea() {
         val defaultFont = UIManager.getDefaults().getFont("TextPane.font")
         val defaultSize = defaultFont.size
 
-        textArea.font = Font(fontProvider.monospaceFontName, Font.PLAIN, defaultSize)
-        textArea.isEditable = false
+        commandOutputField.font = Font(fontProvider.monospaceFontName, Font.PLAIN, defaultSize)
+        commandOutputField.isEditable = false
     }
 }
