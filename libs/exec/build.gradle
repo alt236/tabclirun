@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.test.logger)
+    alias(libs.plugins.kover)
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(versions.java_version)
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(versions.java_version)
+    }
+}
+
+group 'dev.alt236'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation libs.commons.exec
+    implementation libs.jsr305
+
+    testImplementation libs.junit4
+    testImplementation libs.mockito.all
+    testImplementation libs.kotlin.test
+}

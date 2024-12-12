@@ -2,7 +2,7 @@ package uk.co.alt236.tabclirun.ui;
 
 
 import dev.alt236.tabclirun.libs.config.Command;
-import uk.co.alt236.tabclirun.exec.Result;
+import dev.alt236.tabclirun.libs.exec.result.Result;
 import uk.co.alt236.tabclirun.resources.Resources;
 import uk.co.alt236.tabclirun.ui.views.TabHost;
 

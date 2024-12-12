@@ -1,7 +1,7 @@
 package uk.co.alt236.tabclirun.ui.views;
 
 import dev.alt236.tabclirun.libs.config.Command;
-import uk.co.alt236.tabclirun.exec.Result;
+import dev.alt236.tabclirun.libs.exec.result.Result;
 
 import javax.swing.*;
 

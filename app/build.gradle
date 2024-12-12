@@ -47,10 +47,10 @@ shadowJar {
 
 dependencies {
     implementation project(":libs:config")
+    implementation project(":libs:exec")
 
     implementation libs.commons.cli
     implementation libs.commons.io
-    implementation libs.commons.exec
     implementation libs.commons.text
     implementation libs.google.gson
     implementation libs.jsr305
