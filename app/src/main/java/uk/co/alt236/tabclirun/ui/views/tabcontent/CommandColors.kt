@@ -1,83 +1,25 @@
-package uk.co.alt236.tabclirun.ui.views;
+package uk.co.alt236.tabclirun.ui.views.tabcontent
 
-import dev.alt236.tabclirun.libs.config.Command;
-import dev.alt236.tabclirun.libs.exec.result.Line;
-import dev.alt236.tabclirun.libs.exec.result.Result;
-import uk.co.alt236.tabclirun.ui.implementations.ColorPane;
+import dev.alt236.tabclirun.libs.config.Command
+import dev.alt236.tabclirun.libs.exec.result.Line
+import java.awt.Color
 
-import javax.swing.*;
-import java.awt.*;
+internal class CommandColors(command: Command) {
 
-class CommandTab extends JPanel {
-    private static final Color COLOR_ERR = Color.decode("#E94F64");
-    private static final Color COLOR_STD = Color.WHITE;
-    private final JTextField textField;
-    private final ColorPane textArea;
-    private final FontProvider fontProvider;
+    private val errorColor: Color = if (command.errorColor == null) COLOR_ERR
+    else command.errorColor
 
-    private Command command;
+    private val textColor: Color = if (command.textColor == null) COLOR_STD
+    else command.textColor
 
-    CommandTab() {
-        fontProvider = new FontProvider();
-        textField = new JTextField();
-        textArea = new ColorPane();
-
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        setupTextArea();
-
-        textField.setMaximumSize(new Dimension(Integer.MAX_VALUE, textField.getPreferredSize().height));
-        textField.setEditable(false);
-
-        add(textField);
-        add(new JScrollPane(textArea));
+    fun getColor(line: Line): Color = if (line.isError) {
+        errorColor
+    } else {
+        textColor
     }
 
-    void setCommand(final Command command) {
-        this.command = command;
-
-        textField.setText(command.getCommand());
-
-        if (command.getBackgroundColor() != null) {
-            textArea.setBackground(command.getBackgroundColor());
-        }
-    }
-
-    void setResult(final Result result) {
-        textArea.setEditable(true);
-
-        for (final Line line : result.getLines()) {
-            final Color color = line.isError()
-                    ? getErrorColor()
-                    : getTextColor();
-
-            textArea.append(color, line.getText() + "\n");
-        }
-
-        if (command.isDisableAutoScroll() && textArea.getText().length() > 0) {
-            textArea.setCaretPosition(0);
-        }
-
-        textArea.setEditable(false);
-    }
-
-    private void setupTextArea() {
-        Font defaultFont = UIManager.getDefaults().getFont("TextPane.font");
-        int defaultSize = defaultFont.getSize();
-
-        textArea.setFont(new Font(fontProvider.getMonospaceFontName(), Font.PLAIN, defaultSize));
-        textArea.setEditable(false);
-    }
-
-    private Color getErrorColor() {
-        return command.getErrorColor() == null
-                ? COLOR_ERR
-                : command.getErrorColor();
-    }
-
-    private Color getTextColor() {
-        return command.getTextColor() == null
-                ? COLOR_STD
-                : command.getTextColor();
+    private companion object {
+        private val COLOR_ERR: Color = Color.decode("#E94F64")
+        private val COLOR_STD: Color = Color.WHITE
     }
 }

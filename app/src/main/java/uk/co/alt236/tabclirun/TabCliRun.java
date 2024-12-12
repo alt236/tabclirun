@@ -17,13 +17,15 @@ class TabCliRun {
     }
 
     void execute(CommandLineOptions cliOptions) {
-        final TabsPresenter tabsPresenter = new TabsPresenter(resources);
-        final ConfigParser jsonParser = new ConfigParser();
+        final TabsPresenter tabsPresenter = new TabsPresenter(resources, cliOptions.isVerbose());
+        final List<Command> commands = getCommands(cliOptions);
+        tabsPresenter.present(commands);
+    }
 
-        final List<Command> commands = jsonParser.parse(
+    private List<Command> getCommands(CommandLineOptions cliOptions) {
+        final ConfigParser jsonParser = new ConfigParser();
+        return jsonParser.parse(
                 new File(cliOptions.getSettingsFile()),
                 cliOptions.getTarget());
-
-        tabsPresenter.present(commands);
     }
 }

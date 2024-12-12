@@ -2,6 +2,7 @@ package uk.co.alt236.tabclirun.ui.views;
 
 import dev.alt236.tabclirun.libs.config.Command;
 import dev.alt236.tabclirun.libs.exec.result.Result;
+import uk.co.alt236.tabclirun.ui.views.tabcontent.CommandTab;
 
 import javax.swing.*;
 

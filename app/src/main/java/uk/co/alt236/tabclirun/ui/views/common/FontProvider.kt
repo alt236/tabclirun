@@ -1,24 +1,22 @@
-package uk.co.alt236.tabclirun.ui.views;
+package uk.co.alt236.tabclirun.ui.views.common
 
-import java.awt.*;
+import java.awt.Font
+import java.awt.GraphicsEnvironment
 
-class FontProvider {
+internal class FontProvider {
+    val monospaceFontName: String
+        get() = getFont("Book", Font.MONOSPACED)
 
-    public String getMonospaceFontName() {
-        return getFont("Book", Font.MONOSPACED);
-    }
+    private fun getFont(fontName: String, fallback: String): String {
+        val g = GraphicsEnvironment.getLocalGraphicsEnvironment()
 
-    private String getFont(final String fontName,
-                           final String fallback) {
-        final GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
-
-        for (String font : g.getAvailableFontFamilyNames()) {
+        for (font in g.availableFontFamilyNames) {
             //System.out.println(font);
-            if (font.equals(fontName)) {
-                return fontName;
+            if (font == fontName) {
+                return fontName
             }
         }
 
-        return fallback;
+        return fallback
     }
 }

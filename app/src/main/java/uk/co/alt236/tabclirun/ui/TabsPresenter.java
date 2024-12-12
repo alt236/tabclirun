@@ -15,10 +15,12 @@ public class TabsPresenter {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private final Resources resources;
+    private final boolean verbose;
 
     private boolean presenting;
 
-    public TabsPresenter(Resources resources) {
+    public TabsPresenter(Resources resources, boolean verbose) {
+        this.verbose = verbose;
         this.resources = resources;
     }
 
@@ -43,7 +45,8 @@ public class TabsPresenter {
     private void executeCommands(final View view,
                                  final List<Command> commands) {
 
-        final CommandExecutor executor = new CommandExecutor();
+        final CommandExecutor executor = new CommandExecutor(verbose);
+
         for (final Command command : commands) {
             final Single<Result> observable =
                     Single.fromCallable(() -> executor.executeCommand(command.getCommand()));

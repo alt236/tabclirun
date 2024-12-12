@@ -19,4 +19,7 @@ public class CommandLineOptions {
         return commandLine.getOptionValue(OptionsBuilder.ARG_TARGET_LONG);
     }
 
+    public boolean isVerbose() {
+        return commandLine.hasOption(OptionsBuilder.ARG_VERBOSE_LONG);
+    }
 }

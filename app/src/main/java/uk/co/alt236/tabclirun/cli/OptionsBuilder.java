@@ -11,6 +11,9 @@ public class OptionsBuilder {
     /*package*/ private static final String ARG_SETTINGS = "s";
     /*package*/ private static final String ARG_TARGET = "t";
 
+    /*package*/ static final String ARG_VERBOSE = "v";
+    /*package*/ static final String ARG_VERBOSE_LONG = "verbose";
+
     private final Strings strings;
 
     public OptionsBuilder(Strings strings) {
@@ -22,6 +25,7 @@ public class OptionsBuilder {
 
         options.addOption(createOptionSettings());
         options.addOption(createOptionTarget());
+        options.addOption(createOptionVerbose());
 
         return options;
     }
@@ -42,6 +46,16 @@ public class OptionsBuilder {
                 .longOpt(ARG_TARGET_LONG)
                 .hasArg()
                 .required(true)
+                .desc(desc)
+                .build();
+    }
+
+    private Option createOptionVerbose() {
+        final String desc = strings.getString("cli_cmd_input_verbose");
+        return Option.builder(ARG_VERBOSE)
+                .longOpt(ARG_VERBOSE_LONG)
+                .hasArg(false)
+                .required(false)
                 .desc(desc)
                 .build();
     }
