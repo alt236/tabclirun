@@ -1,10 +1,10 @@
-package uk.co.alt236.tabclirun.json;
+package dev.alt236.tabclirun.libs.config.internal.parser;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import uk.co.alt236.tabclirun.Command;
-import uk.co.alt236.tabclirun.json.model.GlobalSettings;
-import uk.co.alt236.tabclirun.json.model.Settings;
+import dev.alt236.tabclirun.libs.config.Command;
+import dev.alt236.tabclirun.libs.config.internal.model.GlobalSettings;
+import dev.alt236.tabclirun.libs.config.internal.model.Settings;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -42,7 +42,7 @@ public class JsonParser {
         }
 
         final List<Command> retVal = new ArrayList<>();
-        for (final uk.co.alt236.tabclirun.json.model.Command inputCommand : settings.getCommands()) {
+        for (final dev.alt236.tabclirun.libs.config.internal.model.Command inputCommand : settings.getCommands()) {
             checkNullity(inputCommand.getCommand(), "Command cannot be null!");
 
             final Color textColor = ParseHelper.getFirstNotNullColor(inputCommand.getTextColor(), globalSettings.getTextColor());
@@ -50,7 +50,10 @@ public class JsonParser {
             final Color bgColor = ParseHelper.getFirstNotNullColor(inputCommand.getConsoleColor(), globalSettings.getConsoleColor());
             final String name = inputCommand.getName() == null ? inputCommand.getCommand() : inputCommand.getName();
             final String commandString = composeCommand(inputCommand.getCommand(), target);
-            final boolean disableAutoScroll = ParseHelper.getFirstNotNull(inputCommand.isDisableAutoScroll(), globalSettings.isDisableAutoScroll(), Boolean.FALSE);
+            final boolean disableAutoScroll = ParseHelper.getFirstNotNull(
+                    inputCommand.isDisableAutoScroll(),
+                    globalSettings.isDisableAutoScroll(),
+                    Boolean.FALSE);
 
             final Command command = new Command.Builder()
                     .withDisableAutoScroll(disableAutoScroll)

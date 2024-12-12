@@ -1,4 +1,4 @@
-package uk.co.alt236.tabclirun.json;
+package dev.alt236.tabclirun.libs.config.internal.parser;
 
 import javax.annotation.Nullable;
 import java.awt.*;
