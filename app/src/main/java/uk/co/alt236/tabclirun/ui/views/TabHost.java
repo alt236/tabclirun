@@ -1,7 +1,7 @@
 package uk.co.alt236.tabclirun.ui.views;
 
 import dev.alt236.tabclirun.libs.config.Command;
-import dev.alt236.tabclirun.libs.exec.result.Result;
+import dev.alt236.tabclirun.libs.exec.result.CommandOutput;
 import uk.co.alt236.tabclirun.ui.views.tabcontent.CommandTab;
 import uk.co.alt236.tabclirun.ui.views.tabtitle.TabTitleIcons;
 
@@ -52,20 +52,20 @@ public class TabHost extends JPanel {
         return -1;
     }
 
-    public void setTabData(int tabIndex, Result result) {
+    public void setTabData(int tabIndex, CommandOutput commandOutput) {
         final JTabbedPane tabs = getTabs();
         final CommandTab tab = (CommandTab) tabs.getComponentAt(tabIndex);
         if (tab == null) {
             throw new IllegalStateException("Did not find a tab at index " + tabIndex);
         }
 
-        if (result.isSuccess()) {
+        if (commandOutput.isSuccess()) {
             tabs.setIconAt(tabIndex, tabIcons.getIconSuccess());
         } else {
             tabs.setIconAt(tabIndex, tabIcons.getIconError());
         }
 
-        tab.setResult(result);
+        tab.setResult(commandOutput);
     }
 
     private JTabbedPane getTabs() {

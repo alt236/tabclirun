@@ -1,7 +1,7 @@
 package uk.co.alt236.tabclirun.ui.views.tabcontent
 
 import dev.alt236.tabclirun.libs.config.Command
-import dev.alt236.tabclirun.libs.exec.result.Result
+import dev.alt236.tabclirun.libs.exec.result.CommandOutput
 import uk.co.alt236.tabclirun.ui.implementations.ColorPane
 import uk.co.alt236.tabclirun.ui.views.common.FontProvider
 import java.awt.Dimension
@@ -45,10 +45,10 @@ internal class CommandTab(verbose: Boolean) : JPanel() {
         }
     }
 
-    fun setResult(result: Result) {
+    fun setResult(commandOutput: CommandOutput) {
         commandOutputField.isEditable = true
 
-        resultBinder.bind(colors, result)
+        resultBinder.bind(colors, commandOutput)
 
         if (command.isDisableAutoScroll && commandOutputField.text.isNotEmpty()) {
             commandOutputField.caretPosition = 0
