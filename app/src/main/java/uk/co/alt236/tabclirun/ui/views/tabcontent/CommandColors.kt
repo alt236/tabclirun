@@ -6,7 +6,7 @@ import java.awt.Color
 
 internal class CommandColors(command: Command) {
 
-    private val errorColor: Color = if (command.errorColor == null) {
+    val errorColor: Color = if (command.errorColor == null) {
         COLOR_ERR
     } else {
         command.errorColor

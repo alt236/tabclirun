@@ -1,6 +1,6 @@
 package uk.co.alt236.tabclirun.ui.views.tabcontent
 
-import dev.alt236.tabclirun.libs.exec.result.Result
+import dev.alt236.tabclirun.libs.exec.result.CommandOutput
 import uk.co.alt236.tabclirun.ui.implementations.ColorPane
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
@@ -11,42 +11,37 @@ internal class ResultBinder(
     private val verbose: Boolean,
 ) {
 
-    fun bind(colors: CommandColors, result: Result) {
+    fun bind(colors: CommandColors, commandOutput: CommandOutput) {
         if (verbose) {
-            println("LINES : '${result.command}: ${result.lines.size}'")
+            println("LINES : '${commandOutput.command}: ${commandOutput.lines.size}'")
         }
+
+        val factory = DocumentFactory(colors)
+        val document: DocumentFactory.DocumentWrapper
 
         val elapsed = measureTime {
-            if (result.hasStdErr) {
-                for (line in result.lines) {
-                    val color = colors.getColor(line)
-                    colorPane.append(color, line.text + "\n")
-                }
-            } else {
-                val textColor = colors.textColor
-
-                val sb = StringBuilder()
-                for (line in result.lines) {
-                    sb.appendLine(line.text)
-                }
-
-                colorPane.append(textColor, sb.toString())
-            }
+            document = factory.getDocument(commandOutput)
+            colorPane.document = document.document
         }
 
         if (verbose) {
-            println("BIND  : '${result.command}' --> Time: $elapsed <--")
-
-            val sb = StringBuilder()
-            sb.appendLine("---------------")
-            sb.append("Command: '", result.command, "'", '\n')
-            sb.append("Lines  : ", result.lines.size, '\n')
-            sb.appendLine()
-            sb.append("TIME-EXEC: ", result.executionDuration.pretty(), '\n')
-            sb.append("TIME-BIND: ", elapsed.pretty(), '\n')
-
-            colorPane.append(colors.textColor, sb.toString())
+            println("BIND  : '${commandOutput.command}' --> Time: $elapsed <--")
+            val debugInfo = getDebugString(commandOutput, elapsed, document.method)
+            colorPane.append(colors.textColor, debugInfo)
         }
+    }
+
+
+    private fun getDebugString(commandOutput: CommandOutput, elapsed: Duration, renderMethod: String): String {
+        val sb = StringBuilder()
+        sb.appendLine("---------------")
+        sb.append("Command: '", commandOutput.command, "'", '\n')
+        sb.append("Lines  : ", commandOutput.lines.size, '\n')
+        sb.append("Method : ", renderMethod, '\n')
+        sb.appendLine()
+        sb.append("TIME-EXEC: ", commandOutput.executionDuration.pretty(), '\n')
+        sb.append("TIME-BIND: ", elapsed.pretty(), '\n')
+        return sb.toString()
     }
 
     private fun Duration.pretty(): String {

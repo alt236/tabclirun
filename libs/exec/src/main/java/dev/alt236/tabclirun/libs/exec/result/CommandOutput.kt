@@ -2,7 +2,7 @@ package dev.alt236.tabclirun.libs.exec.result
 
 import kotlin.time.Duration
 
-data class Result(
+data class CommandOutput(
     val command: String,
     val executionDuration: Duration,
     val exitCode: Int,
@@ -10,7 +10,11 @@ data class Result(
 ) {
     val isSuccess = exitCode == 0
 
-    val hasStdErr: Boolean by lazy {
-        lines.any { it.isError }
+    val isOnlyStdOut: Boolean by lazy {
+        lines.all { !it.isError }
+    }
+
+    val isOnlyStdErr: Boolean by lazy {
+        lines.all { it.isError }
     }
 }

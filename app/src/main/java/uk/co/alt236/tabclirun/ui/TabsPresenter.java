@@ -2,7 +2,7 @@ package uk.co.alt236.tabclirun.ui;
 
 import dev.alt236.tabclirun.libs.config.Command;
 import dev.alt236.tabclirun.libs.exec.CommandExecutor;
-import dev.alt236.tabclirun.libs.exec.result.Result;
+import dev.alt236.tabclirun.libs.exec.result.CommandOutput;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -48,14 +48,14 @@ public class TabsPresenter {
         final CommandExecutor executor = new CommandExecutor(verbose);
 
         for (final Command command : commands) {
-            final Single<Result> observable =
+            final Single<CommandOutput> observable =
                     Single.fromCallable(() -> executor.executeCommand(command.getCommand()));
 
             final Disposable disposable = observable
                     .subscribeOn(Schedulers.io())
-                    .subscribe(result -> {
+                    .subscribe(commandOutput -> {
                         int tabIndex = view.findTabWithName(command.getName());
-                        view.setTabData(tabIndex, result);
+                        view.setTabData(tabIndex, commandOutput);
                     });
 
             compositeDisposable.add(disposable);
